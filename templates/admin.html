@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analytics — PeopleXM Bot</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #F8FAFC;
+    padding: 32px 20px;
+    color: #0F172A;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  /* ── Top bar ── */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+
+  .top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #6366F1, #8B5CF6);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  .logo-text strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: #0F172A;
+  }
+
+  .logo-text span {
+    font-size: 11px;
+    color: #64748B;
+  }
+
+  h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0F172A;
+  }
+
+  .top-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  .top-links a {
+    color: #64748B;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .top-links a:hover {
+    background: #EEF2FF;
+    color: #6366F1;
+  }
+
+  .logout-link {
+    color: #EF4444 !important;
+  }
+
+  .logout-link:hover {
+    background: #FEF2F2 !important;
+    color: #EF4444 !important;
+  }
+
+  .export-btn {
+    background: #6366F1;
+    color: #fff !important;
+    border: none;
+    border-radius: 9px;
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: opacity 0.15s;
+  }
+
+  .export-btn:hover {
+    opacity: 0.88;
+    background: #6366F1 !important;
+    color: #fff !important;
+  }
+
+  /* ── Stats row ── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .stat {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 20px 16px;
+    text-align: center;
+    transition: box-shadow 0.2s;
+  }
+
+  .stat:hover {
+    box-shadow: 0 4px 16px rgba(99,102,241,0.10);
+  }
+
+  .stat-n {
+    font-size: 26px;
+    font-weight: 700;
+    color: #6366F1;
+    line-height: 1.1;
+  }
+
+  .stat-l {
+    font-size: 11px;
+    color: #94A3B8;
+    margin-top: 6px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Two column grid ── */
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 22px;
+  }
+
+  .card h2 {
+    font-size: 11px;
+    font-weight: 600;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 16px;
+  }
+
+  /* ── Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  th {
+    text-align: left;
+    color: #94A3B8;
+    font-weight: 600;
+    padding: 0 0 10px;
+    border-bottom: 1px solid #F1F5F9;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  td {
+    padding: 11px 0;
+    border-bottom: 1px solid #F8FAFC;
+    color: #334155;
+    vertical-align: top;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr:hover td {
+    background: #F8FAFC;
+  }
+
+  /* ── Badges — exact same class names as original ── */
+  .badge-high {
+    background: #ECFDF5;
+    color: #065F46;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .badge-low {
+    background: #FEF2F2;
+    color: #991B1B;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .badge-warn {
+    background: #FFFBEB;
+    color: #92400E;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* ── Empty ── */
+  .empty {
+    color: #CBD5E1;
+    font-size: 13px;
+    padding: 16px 0;
+    text-align: center;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    .stats  { grid-template-columns: repeat(2, 1fr); }
+    .grid2  { grid-template-columns: 1fr; }
+    .top-bar { flex-direction: column; align-items: flex-start; gap: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <div class="logo-icon">🤖</div>
+      <div class="logo-text">
+        <strong>PeopleXM</strong>
+        <span>Analytics Dashboard</span>
+      </div>
+    </div>
+    <div class="top-links">
+      <a href="/">Bot</a>
+      <a href="/manage-faq">Manage FAQ</a>
+      <a href="/admin-logout" class="logout-link">Logout</a>
+      <a href="/export-logs" class="export-btn">⬇ Download Logs CSV</a>
+    </div>
+  </div>
+
+  <!-- Stats — exact variables: total, answered, failed, avg_conf, faq_count -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n">{{ total }}</div>
+      <div class="stat-l">Total queries</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">{{ answered }}</div>
+      <div class="stat-l">Answered</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">{{ failed }}</div>
+      <div class="stat-l">Not found</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">{{ avg_conf }}%</div>
+      <div class="stat-l">Avg confidence</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">{{ faq_count }}</div>
+      <div class="stat-l">FAQs loaded</div>
+    </div>
+  </div>
+
+  <!-- Two-col: top_queries + failed_queries -->
+  <div class="grid2">
+
+    <div class="card">
+      <h2>Top questions asked</h2>
+      {% if top_queries %}
+      <table>
+        <tr><th>Question</th><th>Count</th></tr>
+        {% for q, count in top_queries %}
+        <tr>
+          <td>{{ q }}</td>
+          <td><span class="badge-high">{{ count }}×</span></td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% else %}
+      <div class="empty">No data yet.</div>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h2>Unanswered questions (gaps in FAQ)</h2>
+      {% if failed_queries %}
+      <table>
+        <tr><th>Question</th><th>Count</th></tr>
+        {% for q, count in failed_queries %}
+        <tr>
+          <td>{{ q }}</td>
+          <td><span class="badge-low">{{ count }}×</span></td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% else %}
+      <div class="empty">No failed queries yet.</div>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <!-- Recent conversations — exact variable: recent -->
+  <div class="card">
+    <h2>Recent conversations</h2>
+    {% if recent %}
+    <table>
+      <tr>
+        <th>Question</th>
+        <th>Answer</th>
+        <th>Confidence</th>
+        <th>Time</th>
+      </tr>
+      {% for entry in recent %}
+      <tr>
+        <td>{{ entry.query }}</td>
+        <td style="color:#64748B;font-size:12px">
+          {% if entry.get('not_found') %}
+            <span class="badge-low">Not found</span>
+          {% else %}
+            {{ (entry.answer or '')[:50] }}{% if (entry.answer or '')|length > 50 %}…{% endif %}
+          {% endif %}
+        </td>
+        <td>
+          {% set pct = (entry.confidence * 100)|int %}
+          {% if entry.get('not_found') %}
+            <span class="badge-low">{{ pct }}%</span>
+          {% elif pct >= 60 %}
+            <span class="badge-high">{{ pct }}%</span>
+          {% else %}
+            <span class="badge-warn">{{ pct }}%</span>
+          {% endif %}
+        </td>
+        <td style="color:#94A3B8;font-size:11px;white-space:nowrap">{{ entry.timestamp[:16] }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <div class="empty">No conversations yet.</div>
+    {% endif %}
+  </div>
+
+</div>
+</body>
+</html>

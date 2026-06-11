@@ -1,0 +1,92 @@
+Q: How do I reset my password?
+A: Click Forgot Password on the login page and follow the instructions sent to your registered email.
+
+Q: How do I apply for leave?
+A: Open the HR portal, navigate to Leave Management, and submit your request with the dates.
+
+Q: What are the office working hours?
+A: Office hours are 9 AM to 6 PM, Monday to Friday.
+
+Q: How do I raise a support ticket?
+A: Go to the Help Desk section in the PeopleXM portal and click New Ticket.
+
+Q: How do I update my personal information?
+A: Log in to PeopleXM, go to My Profile, and click Edit to update your details.
+
+Q: What is the process for onboarding a new employee?
+A: HR will send a welcome email with login credentials and the onboarding checklist on the joining date.
+
+Q: How do I download my payslip?
+A: Log in to the portal, go to Payroll, and click Download next to the relevant month.
+
+Q: Who do I contact for IT issues?
+A: Raise a ticket in the Help Desk portal under the IT Support category.
+
+Q: How do I apply for work from home?
+A: Submit a WFH request through the Leave Management section at least one day in advance.
+
+Q: What is the leave policy?
+A: Employees get 12 casual leaves and 15 earned leaves per year. Check the HR policy document for details.
+
+Q: How do I enroll in health insurance?
+A: Go to Benefits in your profile and complete the insurance enrollment form within 30 days of joining.
+
+Q: How do I change my bank account for salary?
+A: Submit a bank change request form to HR with your new account details and a cancelled cheque.
+
+Q: What is the notice period policy?
+A: The standard notice period is 30 days for most roles and 60 days for senior positions. Check your offer letter for your specific notice period.
+
+Q: How do I apply for a salary advance?
+A: Submit a salary advance request through the HR portal under Payroll and Finance. Approval is subject to manager and HR discretion.
+
+Q: What happens if I exceed my casual leave limit?
+A: Any leave taken beyond your casual leave balance will be deducted from your earned leave. If both are exhausted, it will be treated as leave without pay.
+
+Q: How do I submit my tax declaration?
+A: Log in to the portal, go to Payroll, and select Tax Declaration. Fill in your investment proofs before the deadline announced by HR.
+
+Q: How do I refer someone for a job opening?
+A: Go to the Careers section in the PeopleXM portal and submit a referral with the candidate's details and the position they are applying for.
+
+Q: What is the policy for late arrivals?
+A: Three late arrivals in a month are treated as half a day of casual leave deduction. Consistent late arrivals may be escalated to your manager.
+
+Q: How do I request a relieving letter or experience certificate?
+A: Submit a request through HR under Documents and Certificates. It will be processed within 7 working days after your last working day.
+
+Q: How do I report a workplace grievance?
+A: You can raise a grievance confidentially through the HR portal under Grievance Management or email hr@peoplexm.com directly.
+
+Q: What benefits does PeopleXM offer?
+A: PeopleXM offers health insurance, paid leaves, performance bonuses, flexible work from home options, and learning and development reimbursements.
+
+Q: How do I get reimbursed for business expenses?
+A: Submit your expense claim with receipts through the Finance section in the portal. Claims are processed within 10 working days.
+
+Q: How do I check my attendance record?
+A: Log in to the portal and go to Attendance under My Profile. You can view daily records and monthly summaries there.
+
+Q: What is the performance review process?
+A: Performance reviews are conducted twice a year. Your manager will schedule a review meeting and you will receive a self-assessment form two weeks before the review date.
+
+Q: How do I request a promotion or role change?
+A: Speak to your manager first and then submit a formal request through HR under Career Development. HR will initiate the appraisal process.
+
+Q: How do I access the employee handbook?
+A: The employee handbook is available in the HR portal under Documents and Policies. It is updated annually and you will be notified of any changes.
+
+Q: What should I do if I lose my access card or ID?
+A: Report it immediately to the admin team at admin@peoplexm.com and raise a ticket in the Help Desk under Admin Support for a replacement.
+
+Q: How do I opt out of or change my insurance plan?
+A: Changes to your insurance plan can be made during the annual enrollment window. Contact HR at hr@peoplexm.com for exceptions outside this window.
+
+Q: How do I request a work from home extension?
+A: Submit an updated WFH request through Leave Management with the new end date. Your manager will need to approve the extension.
+
+Q: How do I negotiate my salary?
+A: Salary discussions are handled during the appraisal cycle. Speak to your manager or HR representative to discuss your compensation during your performance review.
+
+Q: How do I check my current salary or CTC?
+A: Your salary details and CTC breakdown are available in the Payroll section of the PeopleXM portal under Salary Structure.

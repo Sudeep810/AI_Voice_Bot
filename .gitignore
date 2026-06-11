@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+.vscode/
+*.exe
+logs.json
+
+static/audio/
+static/*.mp3

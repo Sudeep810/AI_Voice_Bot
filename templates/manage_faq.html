@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manage FAQ — PeopleXM</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #F8FAFC;
+    color: #0F172A;
+    padding: 36px 20px;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* ── Page heading ── */
+  h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0F172A;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+
+  .logo-icon {
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, #6366F1, #8B5CF6);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+
+  /* .sub — exact class name kept, used for nav links */
+  .sub {
+    font-size: 13px;
+    color: #94A3B8;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .sub a {
+    color: #6366F1;
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 7px;
+    font-weight: 500;
+    transition: background 0.15s;
+  }
+
+  .sub a:hover { background: #EEF2FF; }
+
+  .sub .logout-link { color: #EF4444 !important; }
+  .sub .logout-link:hover { background: #FEF2F2 !important; }
+
+  /* ── Cards ── */
+  .card {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 16px;
+  }
+
+  .card h2 {
+    font-size: 11px;
+    font-weight: 600;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 16px;
+  }
+
+  /* ── Inputs — exact ids: new-q, new-a, edit-q, edit-a kept ── */
+  input[type=text], textarea {
+    width: 100%;
+    padding: 10px 13px;
+    border: 1px solid #E2E8F0;
+    border-radius: 9px;
+    font-size: 13px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    outline: none;
+    color: #0F172A;
+    background: #F8FAFC;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  input[type=text]:focus, textarea:focus {
+    border-color: #6366F1;
+    background: #fff;
+  }
+
+  textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+
+  /* ── Buttons — exact class names kept ── */
+  .btn {
+    padding: 9px 18px;
+    border: none;
+    border-radius: 9px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: inherit;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+
+  .btn:hover { transform: translateY(-1px); }
+
+  .btn-primary {
+    background: #6366F1;
+    color: #fff;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+
+  /* btn-danger — exact class name kept, used in deleteFAQ onclick */
+  .btn-danger {
+    background: #FEF2F2;
+    color: #991B1B;
+    border: 1px solid #FECACA;
+  }
+  .btn-danger:hover { background: #FEE2E2; }
+
+  /* btn-edit — exact class name kept, used in openEdit onclick */
+  .btn-edit {
+    background: #EFF6FF;
+    color: #1D4ED8;
+    border: 1px solid #BFDBFE;
+  }
+  .btn-edit:hover { background: #DBEAFE; }
+
+  /* btn-cancel — exact class name kept, used in closeModal onclick */
+  .btn-cancel {
+    background: #F8FAFC;
+    color: #64748B;
+    border: 1px solid #E2E8F0;
+  }
+  .btn-cancel:hover { background: #F1F5F9; }
+
+  /* ── FAQ list items — exact class names kept ── */
+  .faq-item {
+    border-bottom: 1px solid #F1F5F9;
+    padding: 14px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .faq-item:last-child { border-bottom: none; }
+
+  /* faq-num — exact class kept, rendered as i+1 in JS */
+  .faq-num {
+    font-size: 11px;
+    color: #CBD5E1;
+    min-width: 24px;
+    padding-top: 2px;
+    font-weight: 600;
+  }
+
+  .faq-content { flex: 1; min-width: 0; }
+
+  /* faq-q, faq-a — exact class names kept, used in JS innerHTML */
+  .faq-q {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0F172A;
+    margin-bottom: 4px;
+  }
+
+  .faq-a {
+    font-size: 12px;
+    color: #64748B;
+    line-height: 1.55;
+  }
+
+  /* faq-actions — exact class name kept */
+  .faq-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  /* ── Status messages — exact class names + ids kept ── */
+  /* add-status, faq-status — exact ids used in showStatus() */
+  .status {
+    font-size: 13px;
+    padding: 9px 14px;
+    border-radius: 9px;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  /* .ok, .err — exact class names used in showStatus() */
+  .status.ok  { background: #ECFDF5; color: #065F46; }
+  .status.err { background: #FEF2F2; color: #991B1B; }
+
+  /* ── Modal — exact class names + id kept ── */
+  /* modal-overlay, open — exact names, toggled by classList in JS */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  }
+
+  .modal h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: #0F172A;
+  }
+
+  /* modal-actions — exact class kept */
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 6px;
+  }
+
+  /* ── Empty state — exact class name kept, used in JS innerHTML ── */
+  .empty {
+    color: #CBD5E1;
+    font-size: 13px;
+    padding: 20px 0;
+    text-align: center;
+  }
+
+  /* #faq-count-badge — exact id kept, textContent set in loadFAQs() */
+  #faq-count-badge {
+    background: #ECFDF5;
+    color: #065F46;
+    font-size: 12px;
+    padding: 3px 11px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- exact: h1 with id="faq-count-badge" span inside -->
+  <h1>
+    <div class="logo-icon">🤖</div>
+    FAQ Manager
+    <span id="faq-count-badge">0 FAQs</span>
+  </h1>
+
+  <!-- exact: .sub with same 3 links — /, /admin, /admin-logout -->
+  <div class="sub">
+    <a href="/">Back to bot</a>
+    <a href="/admin">Analytics</a>
+    <a href="/admin-logout" class="logout-link">Logout</a>
+  </div>
+
+  <!-- Add FAQ card -->
+  <!-- exact: id="add-status", id="new-q", id="new-a", onclick="addFAQ()" -->
+  <div class="card">
+    <h2>Add new FAQ</h2>
+    <div id="add-status" style="display:none" class="status"></div>
+    <input type="text" id="new-q" placeholder="Question — e.g. How do I apply for leave?">
+    <textarea    id="new-a" placeholder="Answer — e.g. Open the HR portal and go to Leave Management..."></textarea>
+    <button class="btn btn-primary" onclick="addFAQ()">Add FAQ</button>
+  </div>
+
+  <!-- All FAQs card -->
+  <!-- exact: id="faq-status", id="faq-list" -->
+  <div class="card">
+    <h2>All FAQs</h2>
+    <div id="faq-status" style="display:none" class="status"></div>
+    <div id="faq-list"><div class="empty">Loading...</div></div>
+  </div>
+
+</div>
+
+<!-- Edit Modal -->
+<!-- exact: id="edit-modal", class="modal-overlay", toggled with .open -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <h3>Edit FAQ</h3>
+    <!-- exact: id="edit-idx" hidden input, id="edit-q", id="edit-a" -->
+    <input type="hidden" id="edit-idx">
+    <input type="text"   id="edit-q" placeholder="Question">
+    <textarea            id="edit-a" placeholder="Answer"></textarea>
+    <div class="modal-actions">
+      <!-- exact: onclick="closeModal()" and onclick="saveEdit()" -->
+      <button class="btn btn-cancel"  onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEdit()">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     JAVASCRIPT — every function name, fetch URL, JSON key,
+     DOM id, and logic is kept exactly as in the original.
+     Zero functional changes.
+════════════════════════════════════════════════════════════ -->
+<script>
+
+/* ── loadFAQs — exact fetch URL: /faq-list
+      exact redirect check: r.status===302 || r.redirected
+      exact: sets #faq-count-badge textContent
+      exact: renders .faq-item with .faq-num, .faq-q, .faq-a, .faq-actions
+      exact: onclick="openEdit(i,...)" and onclick="deleteFAQ(i)" ── */
+async function loadFAQs() {
+  try {
+    const r = await fetch('/faq-list');
+    if (r.status === 302 || r.redirected) { window.location = '/admin-login'; return; }
+    const data = await r.json();
+    document.getElementById('faq-count-badge').textContent = data.length + ' FAQs';
+    const box = document.getElementById('faq-list');
+    if (!data.length) {
+      box.innerHTML = '<div class="empty">No FAQs loaded yet. Add one above or upload a file from the bot page.</div>';
+      return;
+    }
+    box.innerHTML = data.map((item, i) => `
+      <div class="faq-item">
+        <div class="faq-num">${i + 1}</div>
+        <div class="faq-content">
+          <div class="faq-q">Q: ${escHtml(item.question)}</div>
+          <div class="faq-a">A: ${escHtml(item.answer)}</div>
+        </div>
+        <div class="faq-actions">
+          <button class="btn btn-edit"   onclick="openEdit(${i}, '${encodeURIComponent(item.question)}', '${encodeURIComponent(item.answer)}')">Edit</button>
+          <button class="btn btn-danger" onclick="deleteFAQ(${i})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  } catch (e) {
+    document.getElementById('faq-list').innerHTML = '<div class="empty">Could not load FAQs. Is Flask running?</div>';
+  }
+}
+
+/* ── escHtml — exact function, exact replacements ── */
+function escHtml(str) {
+  return str
+    .replace(/&/g,  '&amp;')
+    .replace(/</g,  '&lt;')
+    .replace(/>/g,  '&gt;')
+    .replace(/"/g,  '&quot;');
+}
+
+/* ── showStatus — exact: id param, msg, type ('ok'|'err')
+      exact: 3500ms timeout ── */
+function showStatus(id, msg, type) {
+  const el = document.getElementById(id);
+  el.textContent  = msg;
+  el.className    = 'status ' + type;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 3500);
+}
+
+/* ── addFAQ — exact fetch URL: /faq-add
+      exact JSON keys: question, answer
+      exact response keys: d.error, d.message, d.total
+      exact: clears new-q and new-a on success ── */
+async function addFAQ() {
+  const q = document.getElementById('new-q').value.trim();
+  const a = document.getElementById('new-a').value.trim();
+  if (!q || !a) {
+    showStatus('add-status', 'Both question and answer are required.', 'err');
+    return;
+  }
+  try {
+    const r = await fetch('/faq-add', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ question: q, answer: a })
+    });
+    const d = await r.json();
+    if (d.error) { showStatus('add-status', d.error, 'err'); return; }
+    showStatus('add-status', d.message + ' Total: ' + d.total, 'ok');
+    document.getElementById('new-q').value = '';
+    document.getElementById('new-a').value = '';
+    loadFAQs();
+  } catch (e) {
+    showStatus('add-status', 'Server error. Is Flask running?', 'err');
+  }
+}
+
+/* ── openEdit — exact: sets edit-idx, edit-q, edit-a
+      exact: adds class 'open' to #edit-modal ── */
+function openEdit(i, q, a) {
+  document.getElementById('edit-idx').value = i;
+  document.getElementById('edit-q').value   = decodeURIComponent(q);
+  document.getElementById('edit-a').value   = decodeURIComponent(a);
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+/* ── closeModal — exact: removes class 'open' from #edit-modal ── */
+function closeModal() {
+  document.getElementById('edit-modal').classList.remove('open');
+}
+
+/* ── saveEdit — exact fetch URL: /faq-edit
+      exact JSON keys: index, question, answer
+      exact response keys: d.message, d.error ── */
+async function saveEdit() {
+  const idx = parseInt(document.getElementById('edit-idx').value);
+  const q   = document.getElementById('edit-q').value.trim();
+  const a   = document.getElementById('edit-a').value.trim();
+  if (!q || !a) { return; }
+  try {
+    const r = await fetch('/faq-edit', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ index: idx, question: q, answer: a })
+    });
+    const d = await r.json();
+    closeModal();
+    showStatus('faq-status', d.message || d.error, d.error ? 'err' : 'ok');
+    loadFAQs();
+  } catch (e) {
+    closeModal();
+    showStatus('faq-status', 'Server error.', 'err');
+  }
+}
+
+/* ── deleteFAQ — exact: confirm() dialog with exact message
+      exact fetch URL: /faq-delete
+      exact JSON key: index
+      exact response keys: d.message, d.error ── */
+async function deleteFAQ(i) {
+  if (!confirm('Delete this FAQ? This cannot be undone.')) return;
+  try {
+    const r = await fetch('/faq-delete', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ index: i })
+    });
+    const d = await r.json();
+    showStatus('faq-status', d.message || d.error, d.error ? 'err' : 'ok');
+    loadFAQs();
+  } catch (e) {
+    showStatus('faq-status', 'Server error.', 'err');
+  }
+}
+
+/* ── exact: called on page load ── */
+loadFAQs();
+</script>
+</body>
+</html>
